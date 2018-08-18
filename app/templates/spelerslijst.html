@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="jumbotron text-center">
+        <h1>Lijst spelers</h1>
+        <p class="lead">Dit is de lijst met spelers met enkele filters en zoekopdracht</p>
+        <ul class="list-group">
+        {% for speler in spelers %}
+            <li class="list-group-item"><a href="{{ url_for('speler', memberid=speler.memberid) }}">{{speler.firstname}} {{speler.lastname}}</a>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

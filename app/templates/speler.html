@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="jumbotron text-center">
+        <h1>{{s.firstname}} {{s.lastname}}</h1>
+        <p class="lead">lidnummer: {{s.memberid}}</p>
+        <p class="lead">geslacht: {{s.gender}}</p>
+        <p class="lead">klassement enkel: {{s.playerlevelsingle}}</p>
+        <p class="lead">klassement dubbel: {{s.playerleveldouble}}</p>
+        <p class="lead">klassement mixed: {{s.playerlevelmixed}}</p>
+        <p class="lead">geboortedatum: {{s.dob.strftime('%d/%m/%Y')}}</p>
+        <p class="lead">speelt interclub: {{s.speelt_interclub()}}</p>
+        <p class="lead">adres: {{s.address}}, {{s.postalcode}} {{s.city}}</p>
+        <p class="lead">telefoon: {{s.phone}}</p>
+        <p class="lead">GSM: {{s.mobile}}</p>
+        <p class="lead">e-mail: {{s.email}}</p>
+    </div>
+{% endblock %}

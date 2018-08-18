@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="jumbotron text-center">
+        <h1>Basisploegen</h1>
+        <p>
+            {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field %}
+            <form method="POST" action="">
+                {% if current_user.is_authenticated %}
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <table style="width:100%">
+                            <tr>
+                                <td>{{render_dropdown_field(form.seizoenen, class_="form-control")}}</td>
+                                <td></td>
+                                <td>{{render_dropdown_field(form.competities, class_="form-control")}}</td>
+                                <td></td>
+                                <td>{{render_dropdown_field(form.ploegen, class_="form-control")}}</td>
+                                <td></td>
+                                <td>
+                                    <select id="seizoen">
+                                        <option value=""></option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <select id="competitie">
+                                        <option value=""></option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <select id="ploeg">
+                                        <option value=""></option>
+                                    </select></td>
+                                <td></td>
+                                <td align="left" valign="bottom">
+                                    <a type="button" class="btn btn-primary" href="{{ url_for('ploegopstellingsformulier') }}">Ploeg Toevoegen</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endif %}
+            </form>
+        </p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../scripts/dynamicdropdown.js"></script>
+{% endblock %}

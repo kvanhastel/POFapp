@@ -1,0 +1,25 @@
+<application>
+  <component name="PyTestFrameworkService">
+    <option name="SDK_TO_PYTEST">
+      <map>
+        <entry key="G:\documenten\programmeren\python\POF\venv\Scripts\python.exe" value="false" />
+        <entry key="G:\documenten\programmeren\python\POFapp\venv\Scripts\python.exe" value="false" />
+        <entry key="G:\documenten\programmeren\python\POFweb\venv\Scripts\python.exe" value="false" />
+      </map>
+    </option>
+    <option name="SDK_TO_NOSETEST">
+      <map>
+        <entry key="G:\documenten\programmeren\python\POF\venv\Scripts\python.exe" value="false" />
+        <entry key="G:\documenten\programmeren\python\POFapp\venv\Scripts\python.exe" value="false" />
+        <entry key="G:\documenten\programmeren\python\POFweb\venv\Scripts\python.exe" value="false" />
+      </map>
+    </option>
+    <option name="SDK_TO_TRIALTEST">
+      <map>
+        <entry key="G:\documenten\programmeren\python\POF\venv\Scripts\python.exe" value="false" />
+        <entry key="G:\documenten\programmeren\python\POFapp\venv\Scripts\python.exe" value="false" />
+        <entry key="G:\documenten\programmeren\python\POFweb\venv\Scripts\python.exe" value="false" />
+      </map>
+    </option>
+  </component>
+</application>

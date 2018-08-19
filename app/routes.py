@@ -56,6 +56,7 @@ def reservespelers():
     return render_template('reservespelers.html')
 
 #spelers = Speler.query.all()
+# filter om alleen competitiespelers te selecteren
 spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.role == 'Uitgeleende speler')).filter_by(website='http://www.interclub.be').all()
 
 @app.route('/spelerslijst')

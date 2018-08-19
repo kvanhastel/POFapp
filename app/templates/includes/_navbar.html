@@ -1,0 +1,50 @@
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">PloegopstellingsApp - Home</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('ploegopstellingsformulier') }}">Ploegopstellingsformulier</a>
+          </li>
+          {% endif %}
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('reservespelers') }}">Reservespelers</a>
+          </li>
+          {% endif %}
+          {% if current_user.rechten == 'administrator' or current_user.rechten == 'werkgroep' %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('basisploegen') }}">Basisploegen</a>
+            </li>
+          {% endif %}
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('spelerslijst') }}">Spelerslijst</a>
+            </li>
+          {% endif %}
+          {% if current_user.rechten == 'administrator' %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('registreer') }}">Gebruiker aanmaken</a>
+            </li>
+          {% endif %}
+        </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('over') }}">Over</a>
+            </li>
+            {% if current_user.is_anonymous %}
+                 <li class="nav-item">
+                     <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                     <a class="nav-link" href="{{ url_for('logout')}}">Logout - {{ current_user.naam }}({{ current_user.rechten[0]}})</a>
+                </li>
+            {% endif %}
+          </ul>
+      </div>
+    </nav>

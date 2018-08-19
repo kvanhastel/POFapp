@@ -1,0 +1,43 @@
+ <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="seizoenMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Seizoen
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    {% for  seizoen in seizoenen %}
+                        <a class="dropdown-item" href="#">{{ seizoen }}</a>
+                    {% endfor %}
+                </div>
+          </li>
+          {% endif %}
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="competitieMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Competitie
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    {% for  competitie in competities %}
+                        <a class="dropdown-item" href="#">{{ competitie }}</a>
+                    {% endfor %}
+                </div>
+          </li>
+          {% endif %}
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">Ploeg</a>
+            </li>
+          {% endif %}
+          {% if current_user.rechten == 'administrator' or current_user.rechten == 'werkgroep' %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">Ploeg toevoegen</a>
+            </li>
+          {% endif %}
+          </ul>
+      </div>
+    </nav>

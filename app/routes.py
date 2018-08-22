@@ -60,13 +60,16 @@ def reservespelers():
 #spelers = Speler.query.all()
 
 # filter om alleen recreanten te selecteren
- spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.typename == 'recreant')).all()
+ spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.typename == 'Recreant')).all()
+
+# filter om alleen jeugdspelers te selecteren
+# spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.typename == 'Jeugd')).all()
 
 # filter om alleen competitiespelers te selecteren
+# spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.typename == 'Competitiespeler')).all()
+
+# filter om alleen interclubspelers te selecteren
 # spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.role == 'Uitgeleende speler')).filter_by(website='http://www.interclub.be').all()
-
-# filter om alleen competitiespelers te selecteren
-spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.role == 'Uitgeleende speler')).filter_by(website='http://www.interclub.be').all()
 
 @app.route('/spelerslijst')
 @login_ploegkapitein_required

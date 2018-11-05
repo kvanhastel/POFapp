@@ -68,6 +68,7 @@ def importeernaardatabase(self):
     # oude gegevens verwijderen
     Speler.query.delete()
     #database vullen met nieuwe gegevens
+    #TODO: import in speler lukt nog niet. eerst eens proberen opslaan als csv en dan eens proberen inlezen in database
     for rij in spelersgegevens:
         spelerinfo = [x.strip() for x in rij.split(';')]
         if spelerinfo[0] != "":

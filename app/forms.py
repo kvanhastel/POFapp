@@ -56,7 +56,7 @@ class BasisloegenForm(FlaskForm):
 
     lijst_competities = Config.COMPETITIES
 
-    keuze_seizoen = StringField('huidig seizoen', nieuw_seizoen)
+    keuze_seizoen = StringField('seizoen: ', validators=[InputRequired(message = "Geen seizoen opgegeven")], default=nieuw_seizoen)
 
     keuze_seizoenen = SelectField('seizoen', choices=lijst_seizoenen,
                                   validators=[InputRequired(message="Geen seizoen opgegeven")])

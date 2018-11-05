@@ -3,38 +3,103 @@
     <div class="jumbotron text-center">
         <h1>Basisploegen</h1>
         <p>
+        <h2>Opvragen ploegen</h2>
             {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field %}
             <form method="POST" action="">
                 {% if current_user.is_authenticated %}
-                    {{ form.hidden_tag() }}
+                    {{ basisploegen_form.hidden_tag() }}
                     <div class="form-group">
                         <table style="width:100%">
                             <tr>
-                                <td>{{render_dropdown_field(form.seizoenen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_seizoenen, class_="form-control")}}</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(form.competities, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_competities, class_="form-control")}}</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(form.ploegen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
                                 <td></td>
-                                <td>
-                                    <select id="seizoen">
-                                        <option value=""></option>
-                                    </select>
-                                </td>
+                            </tr>
+                            <tr>
+                                <td>Speler 1</td>
                                 <td></td>
-                                <td>
-                                    <select id="competitie">
-                                        <option value=""></option>
-                                    </select>
-                                </td>
+                                <td>Naam speler 1</td>
                                 <td></td>
-                                <td>
-                                    <select id="ploeg">
-                                        <option value=""></option>
-                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td>Speler 2</td>
                                 <td></td>
+                                <td>Naam speler 2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Speler 3</td>
+                                <td></td>
+                                <td>Naam speler 3</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Speler 4</td>
+                                <td></td>
+                                <td>Naam speler 4</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endif %}
+            </form>
+        </p>
+
+        <p>
+        <h2>Aanmaken nieuwe ploeg</h2>
+            {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field %}
+            <form method="POST" action="{{url_for('aanmaak_basisploeg') }}">
+                {% if current_user.is_authenticated %}
+                    {{ aanmaak_basisploegen_form.hidden_tag() }}
+                    <div class="form-group">
+                        <table>
+                            <tr>
+                                <td>Seizoen:</td>
+                                <td></td>
+                                <td> 19-20</td>
+                            </tr>
+                            <tr>
+                                <td>competitie:</td>
+                                <td></td>
+                                <td>naam competitie</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>ploegnaam:</td>
+                                <td></td>
+                                <td>Naam ploeg</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Speler 1:</td>
+                                <td></td>
+                                <td>Namen spelers</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Speler 2:</td>
+                                <td></td>
+                                <td>Namen spelers</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Speler 3:</td>
+                                <td></td>
+                                <td>Namen spelers</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Speler 4:</td>
+                                <td></td>
+                                <td>Namen spelers</td>
+                                <td></td>
+                            </tr>
+                            <tr>
                                 <td align="left" valign="bottom">
-                                    <a type="button" class="btn btn-primary" href="{{ url_for('ploegopstellingsformulier') }}">Ploeg Toevoegen</a>
+                                    <a type="button" class="btn btn-primary" href="{{ url_for('aanmaak_basisploeg') }}">Ploeg Toevoegen</a>
                                 </td>
                             </tr>
                         </table>

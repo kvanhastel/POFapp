@@ -28,7 +28,7 @@
           {% endif %}
           {% if current_user.rechten == 'administrator' %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('registreer') }}">Gebruiker aanmaken</a>
+                <a class="nav-link" href="{{ url_for('database_update') }}">Administratie</a>
             </li>
           {% endif %}
         </ul>

@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -16,11 +15,6 @@ class Config(object):
     VBL_LOGIN = 'VanhastelS2N'
     VBL_PASSWORD = 'Bct13lt'
     LOGIN_URL = 'https://badmintonvlaanderen.toernooi.nl/member/login.aspx'
-
-    # lijst selecteerbare seizoenen
-    year = datetime.today().year%100
-    # lijst seizoenen. Vorig seizoen, huidig seizoen en volgend seizoen
-    SEIZOENEN = [('1',str(year-2) + '-' + str(year-1)), ('2',str(year-1) + '-' + str(year)), ('3',str(year) + '-' + str(year+1))]
 
     #lijst competities
     COMPETITIES = [('1','Dames'),('2','Heren'),('3','Gemengd'),('4','Veteranen')]
@@ -58,3 +52,10 @@ class Config(object):
         '5e provinciale C'
     ]
 
+    #lijst filters spelers
+    FILTERS = [
+        'competitiespelers'
+        'jeugd'
+        'recreanten'
+        'interclub'
+    ]

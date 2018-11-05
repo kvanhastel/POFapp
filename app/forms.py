@@ -2,13 +2,15 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField, SelectField
 from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired
 from app.models import Gebruiker, Ploeg
-from app import Config
+from app import Config, db
+
 
 class LoginForm(FlaskForm):
     username = StringField('Gebruikersnaam', validators=[DataRequired(message="Geen gebruikersnaam opgegeven")])
     password = PasswordField('Paswoord', validators=[DataRequired(message="Geen paswoord opgegeven")])
     remember_me = BooleanField('Onthoud')
     submit = SubmitField('Log In')
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Gebruikersnaam', validators=[DataRequired(message="Geen gebruikersnaam opgegeven")])
@@ -27,20 +29,36 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Gebruikersnaam al in gebruik. Kies een andere gebruikersnaam.')
 
 
+class DatabaseForm(FlaskForm):
+    submit = SubmitField('Update Database')
+
+
 class BasisloegenForm(FlaskForm):
 
-
+    # lijst samenstellen ploegen
     lijst_ploegen = []
-    i=1
     query_ploegen = Ploeg.query.all()
+    i = 1
     for ploeg in query_ploegen:
         lijst_ploegen.append((str(i), ploeg.ploegnaam))
         i = i+1
 
-    seizoenen = SelectField('seizoen', choices=Config.SEIZOENEN, validators=[InputRequired(message="Geen seizoen opgegeven")])
-    competities = SelectField('competities', choices=Config.COMPETITIES, validators=[InputRequired(message="Geen competitie opgegeven")])
-    ploegen = SelectField('ploegen', choices=lijst_ploegen,
-                              validators=[InputRequired(message="Geen ploeg geselecteerd")])
+    # lijst samenstellen seizoenen + extra seizoen toevoegen
+
+    lijst_seizoenen = []
+    query_seizoenen = db.session.query(Ploeg.seizoen).distinct().all()
+    i = 1
+    for seizoen in query_seizoenen:
+        lijst_seizoenen.append((str(i), seizoen[0]))
+        i = i+1
+
+    lijst_competities = Config.COMPETITIES
+    keuze_seizoenen = SelectField('seizoen', choices=lijst_seizoenen,
+                                  validators=[InputRequired(message="Geen seizoen opgegeven")])
+    keuze_competities = SelectField('competities', choices=lijst_competities,
+                                    validators=[InputRequired(message="Geen competitie opgegeven")])
+    keuze_ploegen = SelectField('ploegen', choices=lijst_ploegen,
+                                validators=[InputRequired(message="Geen ploeg geselecteerd")])
     '''
     seizoenen = StringField('ploegnaam', validators=[DataRequired(message="Geen seizoen opgegeven")])
     ploegnaam = StringField('ploegnaam', validators=[DataRequired(message="Geen ploegnaam opgegeven")])

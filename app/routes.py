@@ -1,12 +1,13 @@
 from app import app
 from flask import render_template, redirect, url_for, flash, request, json, jsonify, g
-from app.forms import LoginForm, RegistrationForm, BasisloegenForm
+from app.forms import LoginForm, RegistrationForm, BasisloegenForm, DatabaseForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Gebruiker, Speler, Ploeg
 from werkzeug.urls import url_parse
-from app import db
+from app import db, importeerdata
 from functools import wraps
 from app import Config
+from sqlalchemy import or_
 
 
 def login_admin_required(f):
@@ -37,59 +38,49 @@ def login_ploegkapitein_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
+# startpagina route
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('home.html')
 
-
+# route voor ploegopstellingsformulier pagina
 @app.route('/ploegopstellingsformulier')
 @login_ploegkapitein_required
 def ploegopstellingsformulier():
     return render_template('ploegopstellingsformulier.html')
 
-
+# route voor reservespelers pagina
 @app.route('/reservespelers')
 @login_ploegkapitein_required
 def reservespelers():
     return render_template('reservespelers.html')
 
 
-# filter om alleen competitiespelers te selecteren
-#spelers = Speler.query.all()
-
-# filter om alleen recreanten te selecteren
- spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.typename == 'Recreant')).all()
-
-# filter om alleen jeugdspelers te selecteren
-# spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.typename == 'Jeugd')).all()
-
-# filter om alleen competitiespelers te selecteren
-# spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.typename == 'Competitiespeler')).all()
-
-# filter om alleen interclubspelers te selecteren
-# spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.role == 'Uitgeleende speler')).filter_by(website='http://www.interclub.be').all()
-
+# route voor spelerslijst pagina
 @app.route('/spelerslijst')
 @login_ploegkapitein_required
 def spelerslijst():
+    #spelers = Speler.query.all()
+    # filter om alleen competitiespelers te selecteren
+    spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.role == 'Uitgeleende speler')).filter(or_(Speler.typename == 'Competitiespeler', Speler.typename == 'Jeugd')).filter(Speler.website == 'http://www.interclub.be').all()
     return render_template('spelerslijst.html', spelers=spelers)
 
-
+# route voor speler pagina
 @app.route('/speler/<string:memberid>/')
 @login_ploegkapitein_required
 def speler(memberid):
         s = Speler.query.filter_by(memberid=memberid).first()
         return render_template('speler.html', s=s)
 
+# route voor basisploegen pagina
 @app.route('/basisploegen')
 @login_werkgroep_required
 def basisploegen():
-    seizoenen = Config.SEIZOENEN
-    competities = Config.COMPETITIES
+    keuze_seizoenen = [('1', '17-18'), ('2', '18-19'), ('3', '19-20')]
+    keuze_competities = Config.COMPETITIES
     form = BasisloegenForm()
-    return render_template('basisploegen.html', form=form, seizoenen=json.dumps(seizoenen), competities=json.dumps(competities))
+    return render_template('basisploegen.html', form=form, keuze_seizoenen=json.dumps(keuze_seizoenen), keuze_competities=json.dumps(keuze_competities))
 
 # hier komt de code voor dynamische drop down
 # @app.route('/select_county', methods=['POST'])
@@ -100,20 +91,46 @@ def basisploegen():
 #    return reeks
 
 
-@app.route('/gebruiker_aanmaken', methods=['GET', 'POST'])
+# administatie pagina en routes
+
+# database update route
+@app.route('/database_update', methods=['GET', 'POST'])
 @login_admin_required
-def registreer():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = Gebruiker(gebruikersnaam=form.username.data, naam=form.name.data)
-        user.set_password(form.password.data)
-        user.rechten = form.rechten.data
+def database_update():
+
+    database_update_form = DatabaseForm()
+    aanmaak_gebruiker_form = RegistrationForm()
+
+    if database_update_form.validate_on_submit():
+        importeerdata.importeernaardatabase(app)
+        flash('Update database succesvol', 'info')
+        return redirect(url_for('database_update'))
+    return render_template('administratie.html', title='Administratie', database_update_form=database_update_form, aanmaak_gebruiker_form=aanmaak_gebruiker_form)
+
+# aanmaak gebruiker route
+@app.route('/aanmaak_gebruiker', methods=['GET', 'POST'])
+@login_admin_required
+def aanmaak_gebruiker():
+    #TODO: opdelen in verschillende administratieve taken:
+    #       - nieuwe gebruikers toevoegen
+
+    database_update_form = DatabaseForm()
+    aanmaak_gebruiker_form = RegistrationForm()
+
+    if aanmaak_gebruiker_form.validate_on_submit():
+        user = Gebruiker(gebruikersnaam=aanmaak_gebruiker_form.username.data, naam=aanmaak_gebruiker_form.name.data)
+        user.set_password(aanmaak_gebruiker_form.password.data)
+        user.rechten = aanmaak_gebruiker_form.rechten.data
         db.session.add(user)
         db.session.commit()
-        flash('Nieuwe gebruiker geregistreerd')
-        return redirect(url_for('index'))
-    return render_template('registratieformulier.html', title='Registratie Formulier', form=form)
+        flash('Nieuwe gebruiker aangemaakt', 'info')
+        return redirect(url_for('aanmaak_gebruiker'))
+    return render_template('administratie.html', title='Administratie', aanmaak_gebruiker_form=aanmaak_gebruiker_form, database_update_form=database_update_form)
 
+    #       - database vernieuwen en wachtwoord opgeven
+
+
+# route voor login website
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -133,7 +150,7 @@ def login():
     return render_template('login.html', title='Log in', form=form)
 
 
-# log out
+# route voor log out website
 @app.route('/logout')
 @login_required
 def logout():

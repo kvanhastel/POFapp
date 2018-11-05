@@ -77,10 +77,22 @@ def speler(memberid):
 @app.route('/basisploegen')
 @login_werkgroep_required
 def basisploegen():
-    keuze_seizoenen = [('1', '17-18'), ('2', '18-19'), ('3', '19-20')]
-    keuze_competities = Config.COMPETITIES
-    form = BasisloegenForm()
-    return render_template('basisploegen.html', form=form, keuze_seizoenen=json.dumps(keuze_seizoenen), keuze_competities=json.dumps(keuze_competities))
+    aanmaak_basisploegen_form = BasisloegenForm()
+    basisploegen_form = BasisloegenForm()
+    return render_template('basisploegen.html', basisploegen_form=basisploegen_form, aanmaak_basisploegen_form=aanmaak_basisploegen_form)
+
+# route voor aanmaak nieuwe basisploeg
+@app.route('/aanmaak_basisploeg')
+@login_werkgroep_required
+def aanmaak_basisploeg():
+    aanmaak_basisploegen_form = BasisloegenForm()
+    basisploegen_form = BasisloegenForm()
+    if aanmaak_basisploegen_form.validate_on_submit():
+        flash('Aanmaak basisploeg gelukt', 'info')
+        return redirect(url_for('aanmaak_basisploeg'))
+    return render_template('basisploegen.html', basisploegen_form=basisploegen_form, aanmaak_basisploegen_form=aanmaak_basisploegen_form)
+
+
 
 # hier komt de code voor dynamische drop down
 # @app.route('/select_county', methods=['POST'])

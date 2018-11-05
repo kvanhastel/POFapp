@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="jumbotron text-center">
+        <h1>Hier kan je een nieuwe gebruiker aanmaken</h1>
+        <p class="lead">Aanmaken nieuwe gebruiker: </p>
+        {% from "includes/_formhelpers.html" import render_field, render_radio_field%}
+        <form method="POST" action="{{url_for('aanmaak_gebruiker') }}">
+            {{ aanmaak_gebruiker_form.hidden_tag() }}
+            <div class="form-group">
+                {{render_field(aanmaak_gebruiker_form.username, class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{render_field(aanmaak_gebruiker_form.name, class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{render_field(aanmaak_gebruiker_form.password, class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{render_field(aanmaak_gebruiker_form.password2, class_="form-control")}}
+            </div>
+            <div>
+                {{render_radio_field(aanmaak_gebruiker_form.rechten, class_="form-control")}}
+            </div>
+            <p></p>
+            <p><input type="submit" class="btn btn-primary" value="Registreer gebruiker"></p>
+        </form>
+
+        <h1>Hier kan je de database updaten</h1>
+        <form method="POST" action="{{url_for('database_update') }}">
+            {{ database_update_form.hidden_tag() }}
+            <p><input type="submit" class="btn btn-primary" value="update database huidige klassementen"></p>
+        </form>
+        <form method="POST" action="{{url_for('database_update') }}">
+        <p><input type="submit" class="btn btn-primary" value="update database basis klassementen"></p>
+        </form>
+    </div>
+{% endblock %}

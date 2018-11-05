@@ -7,15 +7,15 @@
             {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field %}
             <form method="POST" action="">
                 {% if current_user.is_authenticated %}
-                    {{ form.hidden_tag() }}
+                    {{ basisploegen_form.hidden_tag() }}
                     <div class="form-group">
                         <table style="width:100%">
                             <tr>
-                                <td>{{render_dropdown_field(form.keuze_seizoenen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_seizoenen, class_="form-control")}}</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(form.keuze_competities, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_competities, class_="form-control")}}</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(form.keuze_ploegen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -51,9 +51,9 @@
         <p>
         <h2>Aanmaken nieuwe ploeg</h2>
             {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field %}
-            <form method="POST" action="">
+            <form method="POST" action="{{url_for('aanmaak_basisploeg') }}">
                 {% if current_user.is_authenticated %}
-                    {{ form.hidden_tag() }}
+                    {{ aanmaak_basisploegen_form.hidden_tag() }}
                     <div class="form-group">
                         <table>
                             <tr>
@@ -99,7 +99,7 @@
                             </tr>
                             <tr>
                                 <td align="left" valign="bottom">
-                                    <a type="button" class="btn btn-primary" href="{{ url_for('ploegopstellingsformulier') }}">Ploeg Toevoegen</a>
+                                    <a type="button" class="btn btn-primary" href="{{ url_for('aanmaak_basisploeg') }}">Ploeg Toevoegen</a>
                                 </td>
                             </tr>
                         </table>

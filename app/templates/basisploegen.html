@@ -57,18 +57,11 @@
                     <div class="form-group">
                         <table>
                             <tr>
-                                <td>{{render_field(aanmaak_basisploegen_form.keuze_seizoen, class_="form-control")}}</td>
-                            </tr>
-                            <tr>
-                                <td>competitie:</td>
+                                <td>{{render_field(aanmaak_basisploegen_form.keuze_seizoen, class_="form-control")}}</td
                                 <td></td>
-                                <td>naam competitie</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_competities, class_="form-control")}}</td>
                                 <td></td>
-                            </tr>
-                            <tr>
-                                <td>ploegnaam:</td>
-                                <td></td>
-                                <td>Naam ploeg</td>
+                                <td>{{render_dropdown_field(basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
                                 <td></td>
                             </tr>
                             <tr>

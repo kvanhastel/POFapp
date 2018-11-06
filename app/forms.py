@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField, SelectField
 from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired
-from app.models import Gebruiker, Ploeg
+from app.models import Gebruiker, Ploeg, Speler
 from app import Config, db
 
 
@@ -52,6 +52,13 @@ class BasisloegenForm(FlaskForm):
         lijst_seizoenen.append((str(i), seizoen[0]))
         i = i+1
 
+    lijst_spelers = []
+    query_spelers = Speler.query.all()
+    i = 1
+    for speler in query_spelers:
+        lijst_spelers.append((str(i), Speler.__repr__(speler)[1]))
+        i = i+1
+
     nieuw_seizoen = '19-20'
 
     lijst_competities = Config.COMPETITIES
@@ -64,6 +71,8 @@ class BasisloegenForm(FlaskForm):
                                     validators=[InputRequired(message="Geen competitie opgegeven")])
     keuze_ploegen = SelectField('ploegen', choices=lijst_ploegen,
                                 validators=[InputRequired(message="Geen ploeg geselecteerd")])
+    keuze_speler = SelectField('speler', choices=lijst_spelers,
+                               validators=[InputRequired(message="Geen ploeg geselecteerd")])
     '''
     seizoenen = StringField('ploegnaam', validators=[DataRequired(message="Geen seizoen opgegeven")])
     ploegnaam = StringField('ploegnaam', validators=[DataRequired(message="Geen ploegnaam opgegeven")])

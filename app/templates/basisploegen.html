@@ -18,6 +18,7 @@
                                 <td style="width:40%">{{render_dropdown_field(basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
                                 <td></td>
                             </tr>
+
                             <tr>
                                 <td>Speler 1</td>
                                 <td></td>
@@ -50,7 +51,7 @@
 
         <p>
         <h2>Aanmaken nieuwe ploeg</h2>
-            {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field %}
+            {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field, render_field_no_label, render_dropdown_field_no_label %}
             <form method="POST" action="{{url_for('aanmaak_basisploeg') }}">
                 {% if current_user.is_authenticated %}
                     {{ aanmaak_basisploegen_form.hidden_tag() }}
@@ -69,25 +70,25 @@
                             <tr>
                                 <td>Speler 1:</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(aanmaak_basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field_no_label(aanmaak_basisploegen_form.keuze_speler, class_="form-control")}}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Speler 2:</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(aanmaak_basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field_no_label(aanmaak_basisploegen_form.keuze_speler, class_="form-control")}}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Speler 3:</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(aanmaak_basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field_no_label(aanmaak_basisploegen_form.keuze_speler, class_="form-control")}}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Speler 4:</td>
                                 <td></td>
-                                <td>{{render_dropdown_field(basisploegen_form.keuze_ploegen, class_="form-control")}}</td>
+                                <td>{{render_dropdown_field_no_label(basisploegen_form.keuze_speler, class_="form-control")}}</td>
                                 <td></td>
                             </tr>
                         </table>

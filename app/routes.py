@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, redirect, url_for, flash, request, json, jsonify, g
-from app.forms import LoginForm, RegistrationForm, BasisloegenForm, DatabaseForm
+from app.forms import LoginForm, RegistrationForm, BasisloegenForm, DatabaseForm, TerugbetalingsForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Gebruiker, Speler, Ploeg
 from werkzeug.urls import url_parse
@@ -49,6 +49,13 @@ def index():
 @login_ploegkapitein_required
 def ploegopstellingsformulier():
     return render_template('ploegopstellingsformulier.html')
+
+# route voor terugbetalingsformulier ziekenfonds pagina
+@app.route('/terugbetaling')
+def terugbetalingsformulier():
+    terugbetaling_form = TerugbetalingsForm()
+    return render_template('terugbetalingsformulier.html', terugbetaling_form=terugbetaling_form)
+
 
 # route voor reservespelers pagina
 @app.route('/reservespelers')

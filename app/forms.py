@@ -33,6 +33,13 @@ class DatabaseForm(FlaskForm):
     submit = SubmitField('Update Database')
 
 
+class TerugbetalingsForm(FlaskForm):
+    lijst_ziekenfonds  = Config.ZIEKENFONDSEN
+    speler = StringField('Naam', validators=[DataRequired(message="Geen naam opgegeven")])
+    ziekenfonds = SelectField('Ziekenfonds', choices=lijst_ziekenfonds,
+                                  validators=[InputRequired(message="Geen ziekenfonds opgegeven")])
+    submit = SubmitField('Download Formulier')
+
 class BasisloegenForm(FlaskForm):
 
     # lijst samenstellen ploegen
@@ -44,7 +51,6 @@ class BasisloegenForm(FlaskForm):
         i = i+1
 
     # lijst samenstellen seizoenen + extra seizoen toevoegen
-
     lijst_seizoenen = []
     query_seizoenen = db.session.query(Ploeg.seizoen).distinct().all()
     i = 1

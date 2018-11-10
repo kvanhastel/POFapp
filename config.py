@@ -11,6 +11,9 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # info ziekenfondsen
+    ZIEKENFONDSEN = [('1', 'Christelijke Mutualiteit'),('2', 'Partena'), ('3', 'Onafhankelijk Ziekenfonds'), ('4', 'Bond Moyson'), ('5', 'Vlaams en Neutraal Ziekenfonds'), ('6', 'Liberale Mutualiteit')]
+
     # info voor inloggen op website VBL
     VBL_LOGIN = 'VanhastelS2N'
     VBL_PASSWORD = 'Bct13lt'

@@ -30,6 +30,11 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
     vandaag_maand = time.strftime("%m")
     vandaag_jaar = time.strftime("%Y")
 
+    if int(vandaag_maand) > 8:
+        seizoen_jaar = vandaag_jaar
+    else:
+        seizoen_jaar = str(int(vandaag_jaar) - 1)
+
 
 # formulier invullen
 # Als ziekenfonds is CM
@@ -48,7 +53,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         can.drawString(160, 562, "Badmintonclub Tielt")
         can.drawString(90, 544, "Sneppe 44, 8540 Deerlijk")
         can.drawString(185, 526, "koen.vanhastel@gmail.com")
-        can.drawString(240, 508, "01/09/" + vandaag_jaar + " - 31/08/" + str(int(vandaag_jaar)+1))
+        can.drawString(240, 508, "01/09/" + seizoen_jaar + " - 31/08/" + str(int(seizoen_jaar)+1))
         can.drawString(130, 491, "€ " + str(speler.betaald_bedrag))
         can.drawString(130, 473, speler.datum_betaling.strftime("%d/%m/%Y"))
         can.drawString(56, 430, "X")
@@ -73,7 +78,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         can.drawString(160, 565, speler.postalcode + ' ' + speler.city)
         can.drawString(180, 512, speler.email)
         can.drawString(123, 424, "X")
-        can.drawString(410, 421, vandaag_jaar + " - " + str(int(vandaag_jaar)+1))
+        can.drawString(410, 421, seizoen_jaar + " - " + str(int(seizoen_jaar)+1))
         can.drawString(160, 399, "Badminton")
         can.drawString(195, 197, speler.datum_betaling.strftime("%d/%m/%Y"))
         can.drawString(395, 197, "€ " + str(speler.betaald_bedrag))
@@ -117,10 +122,10 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         can.drawString(82, 424, "X")
         can.drawString(198, 425, "01")
         can.drawString(216, 425, "09")
-        can.drawString(240, 425, vandaag_jaar[1:])
+        can.drawString(240, 425, seizoen_jaar[1:])
         can.drawString(341, 425, "31")
         can.drawString(361, 425, "08")
-        can.drawString(383, 425, str(int(vandaag_jaar) + 1)[1:])
+        can.drawString(383, 425, str(int(seizoen_jaar) + 1)[1:])
         can.drawString(119, 320, time.strftime("%d"))
         can.drawString(139, 320, time.strftime("%m"))
         can.drawString(162, 320, time.strftime("%Y")[1:])
@@ -135,7 +140,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         can.drawString(73, 509, "X")
         can.drawString(208, 461, "Badmintonclub Tielt")
         can.drawString(230, 435, "Koen Vanhastel")
-        can.drawString(120, 410, "01/09/" + vandaag_jaar + " - 31/08/" + str(int(vandaag_jaar) + 1))
+        can.drawString(120, 410, "01/09/" + seizoen_jaar + " - 31/08/" + str(int(seizoen_jaar) + 1))
         can.drawString(163, 384, str(speler.betaald_bedrag))
         can.drawString(157, 359, speler.datum_betaling.strftime("%d"))
         can.drawString(174, 359, speler.datum_betaling.strftime("%m"))
@@ -147,7 +152,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/form_PAR.pdf", "rb"))
         can.drawString(181, 338, "Badmintonclub Tielt")
         can.drawString(195, 313, speler.lastname + ' ' + speler.firstname)
-        can.drawString(112, 288, "01/09/" + vandaag_jaar + " - 31/08/" + str(int(vandaag_jaar) + 1))
+        can.drawString(112, 288, "01/09/" + seizoen_jaar + " - 31/08/" + str(int(seizoen_jaar) + 1))
         can.drawString(135, 263, "Badminton")
         can.drawString(160, 239, "€ " + str(speler.betaald_bedrag))
         can.save()

@@ -7,8 +7,12 @@ from werkzeug.urls import url_parse
 from app import db, importeerdata
 from functools import wraps
 from app import Config
-from sqlalchemy import or_
+from sqlalchemy import or_, and_, exists
+from app.ziekenfonds import maak_document_ziekenfonds
+import webbrowser
+import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 def login_admin_required(f):
     @wraps(f)
@@ -51,9 +55,31 @@ def ploegopstellingsformulier():
     return render_template('ploegopstellingsformulier.html')
 
 # route voor terugbetalingsformulier ziekenfonds pagina
-@app.route('/terugbetaling')
+@app.route('/terugbetaling', methods=['GET','POST'])
 def terugbetalingsformulier():
     terugbetaling_form = TerugbetalingsForm()
+    if terugbetaling_form.validate_on_submit():
+
+        #selected_speler = Speler.query.filter(and_(Speler.firstname) == terugbetaling_form.speler_voornaam.data.lower(), Speler.lastname) == terugbetaling_form.speler_familienaam.data.lower())).first()
+        selected_speler = Speler.query.filter(and_(Speler.firstname.ilike(terugbetaling_form.speler_voornaam.data), Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
+        if selected_speler is not None:
+            maak_document_ziekenfonds(selected_speler, terugbetaling_form.ziekenfonds.data)
+            flash('Document aangemaakt', 'info')
+            if terugbetaling_form.ziekenfonds.data == 'CM':
+                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_CM_filled.pdf")
+            if terugbetaling_form.ziekenfonds.data == 'LM':
+                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_LM_filled.pdf")
+            if terugbetaling_form.ziekenfonds.data == 'VNZ':
+                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_VNZ_filled.pdf")
+            if terugbetaling_form.ziekenfonds.data == 'BM':
+                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_BM_filled.pdf")
+            if terugbetaling_form.ziekenfonds.data == 'OZ':
+                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_OZ_filled.pdf")
+            if terugbetaling_form.ziekenfonds.data == 'PAR':
+                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_PAR_filled.pdf")
+        else:
+            flash('Je bent geen lid of je hebt je naam verkeerd ingegeven')
+            return redirect(url_for('terugbetalingsformulier'))
     return render_template('terugbetalingsformulier.html', terugbetaling_form=terugbetaling_form)
 
 

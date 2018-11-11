@@ -110,6 +110,9 @@ class Speler (db.Model):
         else:
             return 'Nee'
 
+    def naam(self):
+        return self.firstname + ' ' + self.lastname
+
 
 class Ploeg (db.Model):
     id = db.Column(db.Integer, primary_key=True)

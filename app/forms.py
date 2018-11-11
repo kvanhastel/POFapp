@@ -35,7 +35,8 @@ class DatabaseForm(FlaskForm):
 
 class TerugbetalingsForm(FlaskForm):
     lijst_ziekenfonds  = Config.ZIEKENFONDSEN
-    speler = StringField('Naam', validators=[DataRequired(message="Geen naam opgegeven")])
+    speler_voornaam = StringField('Voornaam', validators=[DataRequired(message="Geen voornaam opgegeven")])
+    speler_familienaam = StringField('Familienaam', validators=[DataRequired(message="Geen familienaam opgegeven")])
     ziekenfonds = SelectField('Ziekenfonds', choices=lijst_ziekenfonds,
                                   validators=[InputRequired(message="Geen ziekenfonds opgegeven")])
     submit = SubmitField('Download Formulier')

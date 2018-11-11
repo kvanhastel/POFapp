@@ -3,13 +3,17 @@
 {% block body %}
     <div class="jumbotron text-center">
         <h1>Terugbetalingsformulier ziekenfonds</h1>
-        <p class="lead">hier komt het tergbetalingssformulier van het ziekenfonds. Geef je naam in en je ziekenfonds en daarna kan je een vooraf ingevuld formulier downloaden</p>
+        <p class="lead">hier kan je het terugbetalingssformulier van het ziekenfonds opmaken. Geef je naam in en je ziekenfonds en daarna kan je een vooraf ingevuld formulier downloaden</p>
         {% from "includes/_formhelpers.html" import render_field, render_radio_field, render_dropdown_field %}
         <form method="POST" action="">
             {{ terugbetaling_form.hidden_tag() }}
         <div class="form-group">
-            {{ render_field(terugbetaling_form.speler, class_="form-control")}}<br>
-            {% for error in terugbetaling_form.speler.errors %}
+            {{ render_field(terugbetaling_form.speler_voornaam, class_="form-control")}}<br>
+            {% for error in terugbetaling_form.speler_voornaam.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+            {{ render_field(terugbetaling_form.speler_familienaam, class_="form-control")}}<br>
+            {% for error in terugbetaling_form.speler_familienaam.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>

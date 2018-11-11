@@ -12,7 +12,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # info ziekenfondsen
-    ZIEKENFONDSEN = [('1', 'Christelijke Mutualiteit'),('2', 'Partena'), ('3', 'Onafhankelijk Ziekenfonds'), ('4', 'Bond Moyson'), ('5', 'Vlaams en Neutraal Ziekenfonds'), ('6', 'Liberale Mutualiteit')]
+    ZIEKENFONDSEN = [('CM', 'Christelijke Mutualiteit'),('PAR', 'Partena'), ('OZ', 'Onafhankelijk Ziekenfonds'), ('BM', 'Bond Moyson'), ('VNZ', 'Vlaams en Neutraal Ziekenfonds'), ('LM', 'Liberale Mutualiteit')]
 
     # info voor inloggen op website VBL
     VBL_LOGIN = 'VanhastelS2N'

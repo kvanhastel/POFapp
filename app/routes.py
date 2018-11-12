@@ -9,7 +9,6 @@ from functools import wraps
 from app import Config
 from sqlalchemy import or_, and_, exists
 from app.ziekenfonds import maak_document_ziekenfonds
-import webbrowser
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -18,7 +17,7 @@ def login_admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if current_user.rechten != "administrator":
-            flash('geen rechten tot deze pagina')
+            flash('geen rechten tot deze pagina', 'danger')
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
@@ -28,7 +27,7 @@ def login_werkgroep_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if current_user.rechten != "werkgroep" and current_user.rechten != "administrator":
-            flash('geen rechten tot deze pagina')
+            flash('geen rechten tot deze pagina', 'danger')
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
@@ -37,7 +36,7 @@ def login_ploegkapitein_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.is_authenticated:
-            flash('geen rechten tot deze pagina')
+            flash('geen rechten tot deze pagina', 'danger')
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
@@ -64,21 +63,8 @@ def terugbetalingsformulier():
         selected_speler = Speler.query.filter(and_(Speler.firstname.ilike(terugbetaling_form.speler_voornaam.data), Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
         if selected_speler is not None:
             maak_document_ziekenfonds(selected_speler, terugbetaling_form.ziekenfonds.data)
-            flash('Document aangemaakt', 'info')
-            if terugbetaling_form.ziekenfonds.data == 'CM':
-                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_CM_filled.pdf")
-            if terugbetaling_form.ziekenfonds.data == 'LM':
-                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_LM_filled.pdf")
-            if terugbetaling_form.ziekenfonds.data == 'VNZ':
-                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_VNZ_filled.pdf")
-            if terugbetaling_form.ziekenfonds.data == 'BM':
-                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_BM_filled.pdf")
-            if terugbetaling_form.ziekenfonds.data == 'OZ':
-                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_OZ_filled.pdf")
-            if terugbetaling_form.ziekenfonds.data == 'PAR':
-                webbrowser.open_new_tab(basedir + "/templates/formulieren/form_PAR_filled.pdf")
         else:
-            flash('Je bent geen lid of je hebt je naam verkeerd ingegeven')
+            flash('Je bent geen lid of je hebt je naam verkeerd ingegeven', 'danger')
             return redirect(url_for('terugbetalingsformulier'))
     return render_template('terugbetalingsformulier.html', terugbetaling_form=terugbetaling_form)
 
@@ -121,7 +107,7 @@ def aanmaak_basisploeg():
     aanmaak_basisploegen_form = BasisloegenForm()
     basisploegen_form = BasisloegenForm()
     if aanmaak_basisploegen_form.validate_on_submit():
-        flash('Aanmaak basisploeg gelukt', 'info')
+        flash('Aanmaak basisploeg gelukt', 'success')
         return redirect(url_for('aanmaak_basisploeg'))
     return render_template('basisploegen.html', basisploegen_form=basisploegen_form, aanmaak_basisploegen_form=aanmaak_basisploegen_form)
 
@@ -146,7 +132,7 @@ def database_update():
 
     if database_update_form.validate_on_submit():
         importeerdata.importeernaardatabase(app)
-        flash('Update database succesvol', 'info')
+        flash('Update database succesvol', 'success')
         return redirect(url_for('database_update'))
     return render_template('administratie.html', title='Administratie', database_update_form=database_update_form, aanmaak_gebruiker_form=aanmaak_gebruiker_form)
 
@@ -166,7 +152,7 @@ def aanmaak_gebruiker():
         user.rechten = aanmaak_gebruiker_form.rechten.data
         db.session.add(user)
         db.session.commit()
-        flash('Nieuwe gebruiker aangemaakt', 'info')
+        flash('Nieuwe gebruiker aangemaakt', 'success')
         return redirect(url_for('aanmaak_gebruiker'))
     return render_template('administratie.html', title='Administratie', aanmaak_gebruiker_form=aanmaak_gebruiker_form, database_update_form=database_update_form)
 
@@ -183,7 +169,7 @@ def login():
     if form.validate_on_submit():
         gebruiker = Gebruiker.query.filter_by(gebruikersnaam=form.username.data).first()
         if gebruiker is None or not gebruiker.check_password(form.password.data):
-            flash('Verkeerde gebruikersnaam of paswoord')
+            flash('Verkeerde gebruikersnaam of paswoord', 'danger')
             return redirect(url_for('login'))
         login_user(gebruiker, remember=form.remember_me.data)
         next_page = request.args.get('next')

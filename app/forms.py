@@ -30,6 +30,8 @@ class RegistrationForm(FlaskForm):
 
 
 class DatabaseForm(FlaskForm):
+    VBL_login = StringField('Gebruikersnaam', validators=[DataRequired(message="Geen gebruikersnaam opgegeven")])
+    VBL_paswoord = PasswordField('Paswoord', validators=[DataRequired(message="Geen paswoord opgegeven")])
     submit = SubmitField('Update Database')
 
 

@@ -6,7 +6,6 @@ from app.models import Gebruiker, Speler, Ploeg
 from werkzeug.urls import url_parse
 from app import db, importeerdata
 from functools import wraps
-from app import Config
 from sqlalchemy import or_, and_, exists
 from app.ziekenfonds import maak_document_ziekenfonds
 import os
@@ -131,7 +130,11 @@ def database_update():
     aanmaak_gebruiker_form = RegistrationForm()
 
     if database_update_form.validate_on_submit():
-        importeerdata.importeernaardatabase(app)
+        VBL_login = database_update_form.VBL_login.data
+        print(VBL_login)
+        VBL_paswoord = database_update_form.VBL_paswoord.data
+        print(VBL_paswoord)
+        importeerdata.importeernaardatabase(VBL_login, VBL_paswoord)
         flash('Update database succesvol', 'success')
         return redirect(url_for('database_update'))
     return render_template('administratie.html', title='Administratie', database_update_form=database_update_form, aanmaak_gebruiker_form=aanmaak_gebruiker_form)

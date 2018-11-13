@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def importeernaardatabase(self):
+def importeernaardatabase(VBL_login, VBL_paswoord):
 
     def data_naar_datum(data):
         if data != '':
@@ -29,9 +29,6 @@ def importeernaardatabase(self):
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
 
-        username = "vanhastelS2N"
-        password = "Bct13lt"
-
         sessie.headers.update(headers)
         login_sessie = sessie.get(login_url)
         soup = BeautifulSoup(login_sessie.content, "lxml")
@@ -48,8 +45,8 @@ def importeernaardatabase(self):
             "__VIEWSTATE": VIEWSTATE,
             "__VIEWSTATEGENERATOR": VIEWSTATEGENERATOR,
             "__EVENTVALIDATION": EVENTVALIDATION,
-            "ctl01$ctl01$container$content$ctl00$cphPage$cphPage$pnlLogin$UserName": username,
-            "ctl01$ctl01$container$content$ctl00$cphPage$cphPage$pnlLogin$Password": password,
+            "ctl01$ctl01$container$content$ctl00$cphPage$cphPage$pnlLogin$UserName": VBL_login,
+            "ctl01$ctl01$container$content$ctl00$cphPage$cphPage$pnlLogin$Password": VBL_paswoord,
             "ctl01$ctl01$container$content$ctl00$cphPage$cphPage$pnlLogin$LoginButton": "Inloggen"}
 
         login_site = sessie.post(login_url, data=login_data)

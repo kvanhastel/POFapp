@@ -19,8 +19,8 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         packet = io.BytesIO()
         can = canvas.Canvas(packet)
 
-        pdfmetrics.registerFont(TTFont('Arial', 'arial.ttf'))
-        can.setFont('Arial', 10)
+        #pdfmetrics.registerFont(TTFont('Arial', 'arial.ttf'))
+        #can.setFont('Arial', 10)
         speler_straat = speler.address
         if "bus " in speler.address:
             speler_bus = speler.address.split(" bus ", 1)[1]
@@ -44,7 +44,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 # formulier invullen
 # Als ziekenfonds is CM
         if ziekenfonds == 'CM':
-            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/form_CM.pdf", "rb"))
+            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/Form_CM.pdf", "rb"))
             can.drawString(90, 681, speler.lastname)
             can.drawString(350, 681, speler.firstname)
             can.drawString(90, 663, speler_straat)
@@ -76,7 +76,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 
         # Als ziekenfonds is LM
         if ziekenfonds == 'LM':
-            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/form_LM.pdf", "rb"))
+            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/Form_LM.pdf", "rb"))
             can.drawString(132, 653, speler.lastname)
             can.drawString(160, 622, speler.firstname)
             can.drawString(160, 591, speler.address)
@@ -92,7 +92,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 
         # Als ziekenfonds is VNZ
         if ziekenfonds == 'VNZ':
-            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/form_VNZ.pdf", "rb"))
+            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/Form_VNZ.pdf", "rb"))
             can.drawString(260, 286, "Koen Vanhastel")
             can.drawString(260, 262, speler.lastname + ' ' + speler.firstname)
             can.drawString(137, 236, "X")
@@ -116,7 +116,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 
         # Als ziekenfonds is BM
         if ziekenfonds == 'BM':
-            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/form_BM.pdf", "rb"))
+            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/Form_BM.pdf", "rb"))
             can.drawString(330, 610, speler.lastname + ' ' + speler.firstname)
             can.drawString(59, 464, "X")
             can.drawString(248, 465, "Badminton")
@@ -141,7 +141,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 
         # Als ziekenfonds is OZ
         if ziekenfonds == 'OZ':
-            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/form_OZ.pdf", "rb"))
+            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/Form_OZ.pdf", "rb"))
             can.drawString(73, 509, "X")
             can.drawString(208, 461, "Badmintonclub Tielt")
             can.drawString(230, 435, "Koen Vanhastel")
@@ -154,7 +154,7 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 
         # Als ziekenfonds is PAR
         if ziekenfonds == 'PAR':
-            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/form_PAR.pdf", "rb"))
+            existing_pdf = PdfFileReader(open(basedir + "/templates/formulieren/Form_PAR.pdf", "rb"))
             can.drawString(181, 338, "Badmintonclub Tielt")
             can.drawString(195, 313, speler.lastname + ' ' + speler.firstname)
             can.drawString(112, 288, "01/09/" + seizoen_jaar + " - 31/08/" + str(int(seizoen_jaar) + 1))
@@ -176,24 +176,32 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 
     # Als ziekenfonds is CM
         if ziekenfonds == 'CM':
-            outputStream = open(basedir + "/templates/formulieren/form_CM_filled.pdf", "wb")
+            outputStream = open(basedir + "/templates/formulieren/Form_CM_filled.pdf", "w+b")
+            os.chmod(basedir + "/templates/formulieren/Form_CM_filled.pdf", 0o777)
     # Als ziekenfonds is LM
         if ziekenfonds == 'LM':
-            outputStream = open(basedir + "/templates/formulieren/form_LM_filled.pdf", "wb")
+            outputStream = open(basedir + "/templates/formulieren/Form_LM_filled.pdf", "w+b")
+            os.chmod(basedir + "/templates/formulieren/Form_LM_filled.pdf", 0o777)
     # Als ziekenfonds is VNZ
         if ziekenfonds == 'VNZ':
-            outputStream = open(basedir + "/templates/formulieren/form_VNZ_filled.pdf", "wb")
+            outputStream = open(basedir + "/templates/formulieren/Form_VNZ_filled.pdf", "w+b")
+            os.chmod(basedir + "/templates/formulieren/Form_VNZ_filled.pdf", 0o777)
     # Als ziekenfonds is BM
         if ziekenfonds == 'BM':
-            outputStream = open(basedir + "/templates/formulieren/form_BM_filled.pdf", "wb")
+            outputStream = open(basedir + "/templates/formulieren/Form_BM_filled.pdf", "w+b")
+            os.chmod(basedir + "/templates/formulieren/Form_BM_filled.pdf", 0o777)
     # Als ziekenfonds is OZ
         if ziekenfonds == 'OZ':
-            outputStream = open(basedir + "/templates/formulieren/form_OZ_filled.pdf", "wb")
+            outputStream = open(basedir + "/templates/formulieren/Form_OZ_filled.pdf", "w+b")
+            os.chmod(basedir + "/templates/formulieren/Form_OZ_filled.pdf", 0o777)
     # Als ziekenfonds is PAR
         if ziekenfonds == 'PAR':
-            outputStream = open(basedir + "/templates/formulieren/form_PAR_filled.pdf", "wb")
+            outputStream = open(basedir + "/templates/formulieren/Form_PAR_filled.pdf", "w+b")
+            os.chmod(basedir + "/templates/formulieren/Form_PAR_filled.pdf", 0o777)
 
-
+        # code aanpassen dat bestand niet wordt opgeslaan maar verstuurd wordt naar PC gebruiker
+        # return send_file('/var/www/PythonProgramming/PythonProgramming/static/ohhey.pdf', attachment_filename='ohhey.pdf')
+        # kijken naar send_file oplossing in flask
 
         output.write(outputStream)
         outputStream.close()
@@ -201,16 +209,16 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
 
         flash('Document aangemaakt', 'success')
         if ziekenfonds == 'CM':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/form_CM_filled.pdf")
+            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_CM_filled.pdf")
         if ziekenfonds == 'LM':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/form_LM_filled.pdf")
+            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_LM_filled.pdf")
         if ziekenfonds == 'VNZ':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/form_VNZ_filled.pdf")
+            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_VNZ_filled.pdf")
         if ziekenfonds == 'BM':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/form_BM_filled.pdf")
+            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_BM_filled.pdf")
         if ziekenfonds == 'OZ':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/form_OZ_filled.pdf")
+            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_OZ_filled.pdf")
         if ziekenfonds == 'PAR':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/form_PAR_filled.pdf")
+            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_PAR_filled.pdf")
     else:
         flash('Je betaling voor dit seizoen is nog niet geregistreerd', 'danger')

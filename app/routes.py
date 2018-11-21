@@ -57,8 +57,6 @@ def ploegopstellingsformulier():
 def terugbetalingsformulier():
     terugbetaling_form = TerugbetalingsForm()
     if terugbetaling_form.validate_on_submit():
-
-        #selected_speler = Speler.query.filter(and_(Speler.firstname) == terugbetaling_form.speler_voornaam.data.lower(), Speler.lastname) == terugbetaling_form.speler_familienaam.data.lower())).first()
         selected_speler = Speler.query.filter(and_(Speler.firstname.ilike(terugbetaling_form.speler_voornaam.data), Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
         if selected_speler is not None:
             maak_document_ziekenfonds(selected_speler, terugbetaling_form.ziekenfonds.data)
@@ -68,7 +66,6 @@ def terugbetalingsformulier():
             flash('Je bent geen lid of je hebt je naam verkeerd ingegeven', 'danger')
             return redirect(url_for('terugbetalingsformulier'))
     return render_template('terugbetalingsformulier.html', terugbetaling_form=terugbetaling_form)
-
 
 # route voor reservespelers pagina
 @app.route('/reservespelers')

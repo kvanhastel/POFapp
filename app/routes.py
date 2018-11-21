@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, url_for, flash, request, json, jsonify, g
+from flask import render_template, redirect, url_for, flash, request, send_file
 from app.forms import LoginForm, RegistrationForm, BasisloegenForm, DatabaseForm, TerugbetalingsForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Gebruiker, Speler, Ploeg
@@ -20,7 +20,7 @@ def login_admin_required(f):
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
-
+ 
 
 def login_werkgroep_required(f):
     @wraps(f)
@@ -62,6 +62,8 @@ def terugbetalingsformulier():
         selected_speler = Speler.query.filter(and_(Speler.firstname.ilike(terugbetaling_form.speler_voornaam.data), Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
         if selected_speler is not None:
             maak_document_ziekenfonds(selected_speler, terugbetaling_form.ziekenfonds.data)
+            flash('Document aangemaakt', 'success')
+            return send_file(basedir + "/templates/formulieren/Form_filled.pdf", as_attachment='pdf', attachment_filename='terugbetalingsformulier.pdf')
         else:
             flash('Je bent geen lid of je hebt je naam verkeerd ingegeven', 'danger')
             return redirect(url_for('terugbetalingsformulier'))

@@ -174,51 +174,9 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         output.addPage(page)
     # finally, write "output" to a real file
 
-    # Als ziekenfonds is CM
-        if ziekenfonds == 'CM':
-            outputStream = open(basedir + "/templates/formulieren/Form_CM_filled.pdf", "w+b")
-            os.chmod(basedir + "/templates/formulieren/Form_CM_filled.pdf", 0o777)
-    # Als ziekenfonds is LM
-        if ziekenfonds == 'LM':
-            outputStream = open(basedir + "/templates/formulieren/Form_LM_filled.pdf", "w+b")
-            os.chmod(basedir + "/templates/formulieren/Form_LM_filled.pdf", 0o777)
-    # Als ziekenfonds is VNZ
-        if ziekenfonds == 'VNZ':
-            outputStream = open(basedir + "/templates/formulieren/Form_VNZ_filled.pdf", "w+b")
-            os.chmod(basedir + "/templates/formulieren/Form_VNZ_filled.pdf", 0o777)
-    # Als ziekenfonds is BM
-        if ziekenfonds == 'BM':
-            outputStream = open(basedir + "/templates/formulieren/Form_BM_filled.pdf", "w+b")
-            os.chmod(basedir + "/templates/formulieren/Form_BM_filled.pdf", 0o777)
-    # Als ziekenfonds is OZ
-        if ziekenfonds == 'OZ':
-            outputStream = open(basedir + "/templates/formulieren/Form_OZ_filled.pdf", "w+b")
-            os.chmod(basedir + "/templates/formulieren/Form_OZ_filled.pdf", 0o777)
-    # Als ziekenfonds is PAR
-        if ziekenfonds == 'PAR':
-            outputStream = open(basedir + "/templates/formulieren/Form_PAR_filled.pdf", "w+b")
-            os.chmod(basedir + "/templates/formulieren/Form_PAR_filled.pdf", 0o777)
-
-        # code aanpassen dat bestand niet wordt opgeslaan maar verstuurd wordt naar PC gebruiker
-        # return send_file('/var/www/PythonProgramming/PythonProgramming/static/ohhey.pdf', attachment_filename='ohhey.pdf')
-        # kijken naar send_file oplossing in flask
-
-        output.write(outputStream)
-        outputStream.close()
-
-
-        flash('Document aangemaakt', 'success')
-        if ziekenfonds == 'CM':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_CM_filled.pdf")
-        if ziekenfonds == 'LM':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_LM_filled.pdf")
-        if ziekenfonds == 'VNZ':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_VNZ_filled.pdf")
-        if ziekenfonds == 'BM':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_BM_filled.pdf")
-        if ziekenfonds == 'OZ':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_OZ_filled.pdf")
-        if ziekenfonds == 'PAR':
-            webbrowser.open_new_tab(basedir + "/templates/formulieren/Form_PAR_filled.pdf")
+        outputstream = open(basedir + "/templates/formulieren/Form_filled.pdf", "w+b")
+        os.chmod(basedir + "/templates/formulieren/Form_filled.pdf", 0o777)
+        output.write(outputstream)
+        outputstream.close()
     else:
         flash('Je betaling voor dit seizoen is nog niet geregistreerd', 'danger')

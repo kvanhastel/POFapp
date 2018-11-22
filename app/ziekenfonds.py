@@ -13,8 +13,7 @@ from flask import flash
 
 def maak_document_ziekenfonds(speler, ziekenfonds):
 
-    inschrijfdag = datetime.datetime(int(time.strftime("%Y")), 8, 1)
-    if speler.datum_betaling > inschrijfdag:
+
         basedir = os.path.abspath(os.path.dirname(__file__))
         packet = io.BytesIO()
         can = canvas.Canvas(packet)
@@ -178,5 +177,4 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         os.chmod(basedir + "/templates/formulieren/Form_filled.pdf", 0o777)
         output.write(outputstream)
         outputstream.close()
-    else:
-        flash('Je betaling voor dit seizoen is nog niet geregistreerd', 'danger')
+

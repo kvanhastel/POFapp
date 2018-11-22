@@ -9,6 +9,7 @@ from functools import wraps
 from sqlalchemy import or_, and_, exists
 from app.ziekenfonds import maak_document_ziekenfonds
 import os
+import time, datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -56,16 +57,35 @@ def ploegopstellingsformulier():
 @app.route('/terugbetaling', methods=['GET','POST'])
 def terugbetalingsformulier():
     terugbetaling_form = TerugbetalingsForm()
+
+    # controle of download knop ingedrukt wordt
     if terugbetaling_form.validate_on_submit():
-        selected_speler = Speler.query.filter(and_(Speler.firstname.ilike(terugbetaling_form.speler_voornaam.data), Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
+        # selecteer juiste speler aan de hand van ingevuld formulier
+        selected_speler = Speler.query.filter(and_(Speler.firstname.ilike(terugbetaling_form.speler_voornaam.data),
+                                                   Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
+        # als de speler bestaat in database...
         if selected_speler is not None:
-            maak_document_ziekenfonds(selected_speler, terugbetaling_form.ziekenfonds.data)
-            flash('Document aangemaakt', 'success')
-            return send_file(basedir + "/templates/formulieren/Form_filled.pdf", as_attachment='pdf', attachment_filename='terugbetalingsformulier.pdf')
+            inschrijfdag = datetime.datetime(int(time.strftime("%Y")), 8, 1)
+            # als de speler dit seizoen nog niet betaald heeft
+            if selected_speler.datum_betaling < inschrijfdag:
+                flash('Je betaling voor dit seizoen is nog niet geregistreerd', 'danger')
+                return redirect(url_for('terugbetalingsformulier'))
+            # als de speler dit seizoen betaald heeft
+            if selected_speler.datum_betaling >= inschrijfdag:
+                maak_document_ziekenfonds(selected_speler, terugbetaling_form.ziekenfonds.data)
+                #flash('Document aangemaakt', 'success')
+                #return redirect(url_for('downloadformulier'))
+                return send_file(basedir + "/templates/formulieren/Form_filled.pdf", as_attachment='pdf', attachment_filename='terugbetalingsformulier.pdf')
+        # als de speler niet in database zit
         else:
             flash('Je bent geen lid of je hebt je naam verkeerd ingegeven', 'danger')
             return redirect(url_for('terugbetalingsformulier'))
     return render_template('terugbetalingsformulier.html', terugbetaling_form=terugbetaling_form)
+
+#route voor download formulier
+#@app.route('/downloadformulier')
+#def downloadformulier():
+#    return render_template('downloadformulier.html')
 
 # route voor reservespelers pagina
 @app.route('/reservespelers')
@@ -80,7 +100,9 @@ def reservespelers():
 def spelerslijst():
     #spelers = Speler.query.all()
     # filter om alleen competitiespelers te selecteren
-    spelers = Speler.query.filter((Speler.role =='Speler') | (Speler.role == 'Uitgeleende speler')).filter(or_(Speler.typename == 'Competitiespeler', Speler.typename == 'Jeugd')).filter(Speler.website == 'http://www.interclub.be').all()
+    spelers = Speler.query.filter(
+        (Speler.role =='Speler') | (Speler.role == 'Uitgeleende speler')).filter(or_(Speler.typename == 'Competitiespeler',
+                                                                                     Speler.typename == 'Jeugd')).filter(Speler.website == 'http://www.interclub.be').all()
     return render_template('spelerslijst.html', spelers=spelers)
 
 # route voor speler pagina

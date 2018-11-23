@@ -65,15 +65,14 @@ def terugbetalingsformulier():
                                                    Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
 
         # bereken inschrijfdag
-        vandaag_dag = time.strftime("%d")
         vandaag_maand = time.strftime("%m")
         vandaag_jaar = time.strftime("%Y")
 
         if int(vandaag_maand) > 8:
-            seizoen_jaar = vandaag_jaar
+            inschrijfdag = datetime.datetime(int(vandaag_jaar), 8, 1)
         else:
-            seizoen_jaar = str(int(vandaag_jaar) - 1)
-        inschrijfdag = datetime.datetime(int(time.strftime("%Y")), 8, 1)
+            inschrijfdag = datetime.datetime(int(vandaag_jaar)-1, 8, 1)
+
 
         # als de speler bestaat in database...
         if selected_speler is not None:

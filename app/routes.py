@@ -68,7 +68,7 @@ def terugbetalingsformulier():
         vandaag_maand = time.strftime("%m")
         vandaag_jaar = time.strftime("%Y")
 
-        if int(vandaag_maand) > 8:
+        if int(vandaag_maand) >= 8:
             inschrijfdag = datetime.datetime(int(vandaag_jaar), 8, 1)
         else:
             inschrijfdag = datetime.datetime(int(vandaag_jaar)-1, 8, 1)

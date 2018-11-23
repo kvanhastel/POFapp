@@ -63,9 +63,20 @@ def terugbetalingsformulier():
         # selecteer juiste speler aan de hand van ingevuld formulier
         selected_speler = Speler.query.filter(and_(Speler.firstname.ilike(terugbetaling_form.speler_voornaam.data),
                                                    Speler.lastname.ilike(terugbetaling_form.speler_familienaam.data))).first()
+
+        # bereken inschrijfdag
+        vandaag_dag = time.strftime("%d")
+        vandaag_maand = time.strftime("%m")
+        vandaag_jaar = time.strftime("%Y")
+
+        if int(vandaag_maand) > 8:
+            seizoen_jaar = vandaag_jaar
+        else:
+            seizoen_jaar = str(int(vandaag_jaar) - 1)
+        inschrijfdag = datetime.datetime(int(time.strftime("%Y")), 8, 1)
+
         # als de speler bestaat in database...
         if selected_speler is not None:
-            inschrijfdag = datetime.datetime(int(time.strftime("%Y")), 8, 1)
             # als de speler dit seizoen nog niet betaald heeft
             if selected_speler.datum_betaling < inschrijfdag:
                 flash('Je betaling voor dit seizoen is nog niet geregistreerd', 'danger')

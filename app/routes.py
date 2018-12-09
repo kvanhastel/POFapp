@@ -75,7 +75,7 @@ def terugbetalingsformulier():
                 maak_document_ziekenfonds(selected_speler, terugbetaling_form.ziekenfonds.data)
                 #flash('Document aangemaakt', 'success')
                 #return redirect(url_for('downloadformulier'))
-                return send_file(basedir + "/templates/formulieren/Form_filled.pdf", as_attachment='pdf', attachment_filename='terugbetalingsformulier.pdf')
+                return redirect(url_for('downloadformulier'))
         # als de speler niet in database zit
         else:
             flash('Je bent geen lid of je hebt je naam verkeerd ingegeven', 'danger')
@@ -83,9 +83,9 @@ def terugbetalingsformulier():
     return render_template('terugbetalingsformulier.html', terugbetaling_form=terugbetaling_form)
 
 #route voor download formulier
-#@app.route('/downloadformulier')
-#def downloadformulier():
-#    return render_template('downloadformulier.html')
+@app.route('/downloadformulier')
+def downloadformulier():
+    return render_template('downloadformulier.html')
 
 # route voor reservespelers pagina
 @app.route('/reservespelers')
@@ -96,7 +96,8 @@ def reservespelers():
 
 # route voor spelerslijst pagina
 @app.route('/spelerslijst')
-@login_ploegkapitein_required
+#@login_ploegkapitein_required
+@login_admin_required
 def spelerslijst():
     #spelers = Speler.query.all()
     # filter om alleen competitiespelers te selecteren
@@ -107,14 +108,16 @@ def spelerslijst():
 
 # route voor speler pagina
 @app.route('/speler/<string:memberid>/')
-@login_ploegkapitein_required
+#@login_ploegkapitein_required
+@login_admin_required
 def speler(memberid):
         s = Speler.query.filter_by(memberid=memberid).first()
         return render_template('speler.html', s=s)
 
 # route voor basisploegen pagina
 @app.route('/basisploegen')
-@login_werkgroep_required
+#@login_werkgroep_required
+@login_admin_required
 def basisploegen():
     aanmaak_basisploegen_form = BasisloegenForm()
     basisploegen_form = BasisloegenForm()
@@ -122,7 +125,8 @@ def basisploegen():
 
 # route voor aanmaak nieuwe basisploeg
 @app.route('/aanmaak_basisploeg')
-@login_werkgroep_required
+#@login_werkgroep_required
+@login_admin_required
 def aanmaak_basisploeg():
     aanmaak_basisploegen_form = BasisloegenForm()
     basisploegen_form = BasisloegenForm()
@@ -152,9 +156,7 @@ def database_update():
 
     if database_update_form.validate_on_submit():
         VBL_login = database_update_form.VBL_login.data
-        print(VBL_login)
         VBL_paswoord = database_update_form.VBL_paswoord.data
-        print(VBL_paswoord)
         importeerdata.importeernaardatabase(VBL_login, VBL_paswoord)
         flash('Update database succesvol', 'success')
         return redirect(url_for('database_update'))
@@ -213,5 +215,6 @@ def logout():
 
 # over pagina met info over app
 @app.route('/over')
+#@login_admin_required
 def over():
     return render_template('over.html')

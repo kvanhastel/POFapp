@@ -4,7 +4,5 @@
     <div class="jumbotron text-center">
         <h1>Download Terugbetalingsformulier ziekenfonds</h1>
         <p class="lead">Je formulier werd aangemaakt en je kan het terugvinden in downloads (meestal onderaan aan je browser)</p>
-        {% from flask import send_file %}
-        {% send_file(basedir + "/templates/formulieren/Form_filled.pdf", as_attachment='pdf', attachment_filename='terugbetalingsformulier.pdf') %}
     </div>
 {% endblock %}

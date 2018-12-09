@@ -118,5 +118,4 @@ def importeernaardatabase(VBL_login, VBL_paswoord):
                 po_id_votas=spelerinfo[46]
             )
         db.session.add(speler) #record in database plaatsen
-    print("update database succesvol")
     db.session.commit() #database schrijven

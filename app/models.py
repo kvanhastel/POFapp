@@ -33,16 +33,9 @@ class Gebruiker (UserMixin, db.Model):
             return True
 
 
-@login.user_loader
-def load_user(id):
-    return Gebruiker.query.get(int(id))
-
-
-
-speler_ploeg = db.Table('speler_ploeg',
-        db.Column('speler_id', db.Integer, db.ForeignKey('speler.id'), primary_key=True),
-        db.Column('ploeg_id', db.Integer, db.ForeignKey('ploeg.id'), primary_key=True)
-)
+    @login.user_loader
+    def load_user(id):
+        return Gebruiker.query.get(int(id))
 
 
 class Speler (db.Model):
@@ -78,9 +71,9 @@ class Speler (db.Model):
     playerlevelsingle = db.Column(db.String(2), index=True)
     playerleveldouble = db.Column(db.String(2), index=True)
     playerlevelmixed = db.Column(db.String(2), index=True)
-    #playerlevelsingle = db.Column(db.String(2), index=True)
-    #playerleveldouble = db.Column(db.String(2), index=True)
-    #playerlevelmixed = db.Column(db.String(2), index=True)
+    #playerlevelsinglebase = db.Column(db.String(2), index=True)
+    #playerleveldoublebase = db.Column(db.String(2), index=True)
+    #playerlevelmixedbase = db.Column(db.String(2), index=True)
     typename = db.Column(db.String(64), index=True)
     geen_badminton_magazine = db.Column(db.Boolean)
     handicap = db.Column(db.Boolean)
@@ -114,6 +107,11 @@ class Speler (db.Model):
         return self.firstname + ' ' + self.lastname
 
 
+speler_ploeg = db.Table('speler_ploeg',
+        db.Column('speler_id', db.Integer, db.ForeignKey('speler.id'), primary_key=True),
+        db.Column('ploeg_id', db.Integer, db.ForeignKey('ploeg.id'), primary_key=True)
+)
+
 class Ploeg (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     seizoen = db.Column(db.String(32), index=True)
@@ -121,11 +119,11 @@ class Ploeg (db.Model):
     ploegnaam = db.Column(db.String(64), index=True)
     afdeling = db.Column(db.String(64), index=True)
 
-#code voor many to many relationship
+    #code voor many to many relationship
 
     spelers = db.relationship(
         'Speler', secondary=speler_ploeg,
-        backref=db.backref('ploegen', lazy='dynamic'), lazy='dynamic')
+        backref='ploegen', lazy='dynamic')
 
 
     def __repr__(self):

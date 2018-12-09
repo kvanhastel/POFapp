@@ -8,7 +8,7 @@ import webbrowser
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from flask import flash
+from flask import flash, send_file
 
 
 def maak_document_ziekenfonds(speler, ziekenfonds):
@@ -178,3 +178,4 @@ def maak_document_ziekenfonds(speler, ziekenfonds):
         output.write(outputstream)
         outputstream.close()
 
+        return send_file(basedir + "/templates/formulieren/Form_filled.pdf", as_attachment='pdf', attachment_filename='terugbetalingsformulier.pdf')

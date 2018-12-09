@@ -15,8 +15,6 @@ class Config(object):
     ZIEKENFONDSEN = [('CM', 'Christelijke Mutualiteit'),('PAR', 'Partena'), ('OZ', 'Onafhankelijk Ziekenfonds'), ('BM', 'Bond Moyson'), ('VNZ', 'Vlaams en Neutraal Ziekenfonds'), ('LM', 'Liberale Mutualiteit')]
 
     # info voor inloggen op website VBL
-    VBL_LOGIN = 'VanhastelS2N'
-    VBL_PASSWORD = 'Bct13lt'
     LOGIN_URL = 'https://badmintonvlaanderen.toernooi.nl/member/login.aspx'
 
     #lijst competities
